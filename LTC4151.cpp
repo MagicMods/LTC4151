@@ -26,19 +26,19 @@ long LTC4151::readADC(byte reg, byte numOfBytes)
 	unsigned int h, l;
 	long result;
 
-	Wire.beginTransmission(I2C_ADDRESS);
-	Wire.write(reg);
-	Wire.endTransmission(false);
+	Wire1.beginTransmission(I2C_ADDRESS);
+	Wire1.write(reg);
+	Wire1.endTransmission(false);
 
-	Wire.requestFrom(I2C_ADDRESS, numOfBytes);
+	Wire1.requestFrom(I2C_ADDRESS, numOfBytes);
 
 	if (numOfBytes == 1) 
 	{
-		result = Wire.read();
+		result = Wire1.read();
 	} else if (numOfBytes == 2) 
 	{
-		h = Wire.read();
-		l = Wire.read();
+		h = Wire1.read();
+		l = Wire1.read();
 		result = h << 4 | l >> 4;
 	}
 
@@ -53,12 +53,12 @@ long LTC4151::readADCSnapshot(byte reg)
 	
 	while (!ready) 
 	{
-		Wire.beginTransmission(I2C_ADDRESS);
-		Wire.write(reg);
-		Wire.endTransmission(false);
-		Wire.requestFrom(I2C_ADDRESS, (byte) 2);
-		h = Wire.read();
-		l = Wire.read();
+		Wire1.beginTransmission(I2C_ADDRESS);
+		Wire1.write(reg);
+		Wire1.endTransmission(false);
+		Wire1.requestFrom(I2C_ADDRESS, (byte) 2);
+		h = Wire1.read();
+		l = Wire1.read();
 		
 		ready = ((l & 0x8) == 0);
 	}
@@ -70,10 +70,10 @@ long LTC4151::readADCSnapshot(byte reg)
 
 void LTC4151::setControlRegister(byte ctrlReg)
 {
-	Wire.beginTransmission(I2C_ADDRESS);
-	Wire.write(REG_CTRL);
-	Wire.write(ctrlReg);
-	Wire.endTransmission();
+	Wire1.beginTransmission(I2C_ADDRESS);
+	Wire1.write(REG_CTRL);
+	Wire1.write(ctrlReg);
+	Wire1.endTransmission();
 }
 
 byte LTC4151::getControlRegister()
